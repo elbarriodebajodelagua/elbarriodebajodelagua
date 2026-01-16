@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>El Barrio Debajo Del Agua</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <button id="help-btn" onclick="openAppHelp()">?</button>
+
+    <main id="app-container">
+        <section id="inicio" class="tab-content active">
+            <h1 class="app-greeting">¡Bienvenido a El Barrio Debajo Del Agua!</h1>
+            
+            <div id="semaforo-banner" class="status-banner" onclick="openSemaforoInfo()">
+                <span id="semaforo-text">SEMÁFORO: CALCULANDO RIESGO...</span>
+            </div>
+
+            <div class="weather-card-cdmx">
+                <div class="cdmx-header">
+                    AIRE Y SALUD
+                    <div id="location-name" style="font-size: 11px; font-weight: normal; opacity: 0.8; margin-top: 2px;">Detectando ubicación...</div>
+                </div>
+                <div class="cdmx-body">
+                    <div class="cdmx-column main-weather">
+                        <div id="weather-icon-main" class="weather-icon-circle">⌛</div>
+                        <h2 id="temp">--°</h2>
+                        <p id="weather-desc">Cargando...</p>
+                    </div>
+                    <div class="cdmx-column">
+                        <div class="gauge-container">
+                            <svg class="gauge" viewBox="0 0 100 50">
+                                <path class="gauge-bg" d="M10,45 A40,40 0 0,1 90,45" />
+                                <path id="gauge-air" class="gauge-value" d="M10,45 A40,40 0 0,1 90,45" style="stroke-dasharray: 0, 126; stroke: #4A7FA7;" />
+                            </svg>
+                            <div class="gauge-icon">⋮⋮⋮</div>
+                        </div>
+                        <strong id="air-quality">--</strong><span></span>
+                    </div>
+                    <div class="cdmx-column">
+                        <div class="gauge-container">
+                            <svg class="gauge" viewBox="0 0 100 50">
+                                <path class="gauge-bg" d="M10,45 A40,40 0 0,1 90,45" />
+                                <path id="gauge-rain" class="gauge-value" d="M10,45 A40,40 0 0,1 90,45" style="stroke-dasharray: 0, 126; stroke: #B3CFE5;" />
+                            </svg>
+                            <div class="gauge-icon">💧</div>
+                        </div>
+                        <strong id="rain-chance">--%</strong><span>Lluvia</span>
+                    </div>
+                </div>
+                <div class="cdmx-footer">
+                    <div>Visibilidad: <b id="visibility">--</b></div>
+                    <div>Presión: <b id="pressure">--</b></div>
+                    <div>Sensación: <b id="feels-like">--</b></div>
+                </div>
+            </div>
+
+            <div class="info-grid-container" style="margin-bottom: 12px;">
+                <div class="info-widget forecast-wide">
+                    <small>DETALLE DE PRECIPITACIÓN (3H)</small>
+                    <p id="next-3h-text">Analizando diagnóstico...</p>
+                </div>
+                <div class="info-widget">
+                    <span class="widget-icon">💧</span>
+                    <div class="widget-data"><small>HUMEDAD</small><b id="humidity">--%</b></div>
+                </div>
+                <div class="info-widget">
+                    <span class="widget-icon">🌬️</span>
+                    <div class="widget-data"><small>VIENTO</small><b id="wind">-- km/h</b></div>
+                </div>
+            </div>
+
+            <div class="info-widget forecast-wide" style="height: auto; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.15);">
+                <div style="display: flex; align-items: center; gap: 15px; width: 100%;">
+                    <div class="widget-icon">🗺️</div>
+                    <div class="widget-data">
+                        <small>ATLAS DE PROXIMIDAD (2KM)</small>
+                        <b id="proximidad-status">Escaneando entorno...</b>
+                    </div>
+                </div>
+                <p id="lista-proximidad" style="font-size: 11px; margin-top: 10px; line-height: 1.4; color: rgba(255,255,255,0.8);">
+                    Buscando canales en tiempo real...
+                </p>
+            </div>
+
+            <h3 class="section-title">🚨 Noticias Destacadas</h3>
+            <div class="swiper newsSwiper">
+                <div class="swiper-wrapper" id="news-wrapper"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+            <h3 class="section-title">💡 Tip de Seguridad</h3>
+            <div id="tip-card-container" class="quick-tip-card">
+                <div class="tip-progress-bar"></div>
+                <div class="tip-content-wrapper">
+                    <div id="tip-icon" class="tip-circle-icon">✨</div>
+                    <p id="current-quick-tip">Cargando consejos...</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ar-section" class="tab-content">
+            <h2 class="page-header">Escenas AR</h2>
+            <div class="cube-container-box">
+                <div class="swiper tinderSwiper">
+                    <div class="swiper-wrapper" id="ar-cards-wrapper"></div>
+                </div>
+                <div id="ar-counter" class="scene-counter">Escena 1 de 5</div>
+            </div>
+            <div class="instruction-card">
+                <div class="inst-icon">👆</div>
+                <div class="inst-text">
+                    <strong>Gira el Cubo</strong>
+                    <p>Desliza en el cubo para explorar las escenas AR y toca su cara para ver detalles de la escena.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="guia" class="tab-content">
+            <h2 class="page-header">Manual de Emergencia</h2>
+            <div class="guia-nav-tabs">
+                <button class="guia-tab-btn active" onclick="switchGuiaTab('antes')">ANTES</button>
+                <button class="guia-tab-btn" onclick="switchGuiaTab('durante')">DURANTE</button>
+                <button class="guia-tab-btn" onclick="switchGuiaTab('despues')">DESPUÉS</button>
+            </div>
+            <div id="guia-antes" class="guia-container active"><div class="guia-list" id="list-antes"></div></div>
+            <div id="guia-durante" class="guia-container"><div class="guia-list" id="list-durante"></div></div>
+            <div id="guia-despues" class="guia-container"><div class="guia-list" id="list-despues"></div></div>
+        </section>
+
+        <section id="info" class="tab-content">
+            <h2 class="page-header">Acerca del Proyecto</h2>
+            <div class="about-card">
+                <div class="about-header">
+                    <div class="about-icon-main">🌊</div>
+                    <h3>El Barrio Debajo Del Agua</h3>
+                    <span>Prevención y Resiliencia</span>
+                </div>
+                <div class="about-section">
+                    <h4>¿POR QUÉ ESTE PROYECTO?</h4>
+                    <p>Nace de la necesidad de informar y prevenir a la comunidad de la zona oriente sobre los riesgos de inundación, utilizando tecnología de punta para salvar vidas y proteger el patrimonio.</p>
+                </div>
+                <div class="about-section">
+                    <h4>HERRAMIENTAS UTILIZADAS</h4>
+                    <div class="tech-grid">
+                        <div class="tech-item">🌐 <span>AR.js</span></div>
+                        <div class="tech-item">🤖 <span>Android Studio</span></div>
+                        <div class="tech-item">🎨 <span>Vuforia</span></div>
+                        <div class="tech-item">☁️ <span>OpenWeather</span></div>
+                        <div class="tech-item">🗺️ <span>OSM API</span></div>
+                        <div class="tech-item">📱 <span>Swiper.js</span></div>
+                    </div>
+                </div>
+                <div class="about-section">
+                    <h4>INTEGRANTES</h4>
+                    <div class="integrantes-list">
+                        <div class="person">
+                            <div class="person-avatar">🏢</div>
+                            <div class="person-info"><strong>Equipo: El Barrio Debajo Del Agua</strong><p>Desarrolladores y Diseñadores</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-version">v2.1.8 - Chimalhuacán, MEX</div>
+        </section>
+
+        <div id="semaforo-modal" class="modal-overlay" onclick="closeSemaforoInfo()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div id="semaforo-modal-body"></div>
+            </div>
+        </div>
+
+        <div id="help-modal" class="modal-overlay" onclick="closeHelp()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div id="help-modal-body"></div>
+            </div>
+        </div>
+    </main>
+
+    <nav class="android-nav">
+        <div class="nav-item active" onclick="changeTab('inicio', this)"><div class="nav-icon">🏠</div><span>Inicio</span></div>
+        <div class="nav-item" onclick="changeTab('ar-section', this)"><div class="nav-icon">👁️</div><span>Escenas</span></div>
+        <div class="nav-item" onclick="changeTab('guia', this)"><div class="nav-icon">📋</div><span>Manual</span></div>
+        <div class="nav-item" onclick="changeTab('info', this)"><div class="nav-icon">❓</div><span>Acerca</span></div>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticia Detallada | El Barrio Debajo Del Agua</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body { padding: 0; margin: 0; background: #0A1931; font-family: 'Roboto', sans-serif; color: #F6FAFD; overflow-y: auto; }
+        .header-container { position: relative; width: 100%; height: 350px; }
+        .article-img { width: 100%; height: 100%; object-fit: cover; }
+        .img-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, #0A1931 10%, transparent 90%); }
+        .back-btn { position: absolute; top: 20px; left: 20px; z-index: 100; display: flex; align-items: center; gap: 8px; color: #F6FAFD; text-decoration: none; background: rgba(10, 25, 49, 0.8); backdrop-filter: blur(10px); padding: 12px 20px; border-radius: 50px; font-weight: 700; border: 1px solid rgba(255,255,255,0.2); }
+        .main-content { padding: 35px 25px; margin-top: -60px; position: relative; z-index: 5; background: #0A1931; border-radius: 40px 40px 0 0; }
+        h1 { font-size: 26px; line-height: 1.2; margin-bottom: 20px; }
+        .divider { width: 60px; height: 4px; background: #4A7FA7; border-radius: 2px; margin-bottom: 30px; }
+        .content { font-size: 16px; line-height: 1.8; color: #B3CFE5; text-align: justify; }
+        .data-table { width: 100%; background: rgba(74, 127, 167, 0.1); border-radius: 15px; border-collapse: collapse; margin: 25px 0; }
+        .data-table td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+        .tech-label { color: #4A7FA7; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <a href="index.html" class="back-btn">← Regresar al Inicio</a>
+        <img id="noticia-img" src="" class="article-img">
+        <div class="img-overlay"></div>
+    </div>
+    <div class="main-content">
+        <span style="color: #4A7FA7; font-size: 11px; font-weight: 800; text-transform: uppercase;">Archivo Histórico • Zona Oriente</span>
+        <h1 id="noticia-titulo">Cargando...</h1>
+        <div class="divider"></div>
+        <div id="noticia-cuerpo" class="content"></div>
+        <div id="tech-section"></div>
+        
+        <div style="margin-top:40px; padding:25px; background:rgba(255,255,255,0.03); border-radius:20px; font-size:13px; color:#4A7FA7; text-align:center; border:1px dashed rgba(74, 127, 167, 0.2);">
+            Información verificada por el equipo "El Barrio Debajo Del Agua". <br>
+            <strong>"El Barrio Debajo Del Agua" - Resiliencia Comunitaria.</strong>
+        </div>
+    </div>
+    <script>
+        const dataNoticias = {
+            1: { t: "La Fractura Histórica del Canal de la Compañía (2010)", c: "El 5 de febrero de 2010, una fractura de 50 metros cuadrados en el muro de contención del Canal de la Compañía, a la altura del kilómetro 27 de la autopista México-Puebla, provocó el derrame de 6,000 litros por segundo de aguas residuales hacia zonas habitacionales. Esta noticia representa el 'punto de quiebre' en la percepción del riesgo regional. La inundación no fue producto de un desbordamiento por lluvia excesiva, sino de un fallo estructural masivo.", tech: [["Punto de Fractura", "Km 27 Autopista Méx-Pue"], ["Caudal de Fuga", "6,000 L/s"], ["Área Ruptura", "50 m²"], ["Tirante Máximo", "2.0 m"]], img: "https://i.postimg.cc/br9ZpcLM/canal-de-La-Compania-1200x675-1.jpg" },
+            2: { t: "El Fallo del Túnel Profundo y la Recurrencia de 2011", c: "En abril de 2011, a pesar de una inversión de 2,000 millones de pesos en un túnel diseñado para evitar desbordamientos, tres colonias de Valle de Chalco volvieron a inundarse debido a fallas operativas y acumulación masiva de basura. Este evento demostró que la infraestructura física, por sí sola, no es una solución definitiva si no se acompaña de una gestión integral de residuos.", tech: [["Inversión", "2,000 MDP"], ["Causa", "Obstrucción por Basura"], ["Recurrencia", "14 meses después"]], img: "https://i.postimg.cc/8CvPTgzh/2RSZZST4ZBEGXH4IN6BMNRZ43A.jpg" },
+            3: { t: "La Emergencia Sanitaria en Chalco (Agosto 2024)", c: "Las colonias Culturas de México y Jacalones en el municipio de Chalco permanecieron inundadas por tres semanas consecutivas durante agosto de 2024, afectando a más de 3,800 viviendas y poniendo en riesgo la salud de 12,000 personas. Esta crisis se originó por la combinación de un drenaje de diámetro insuficiente y la acumulación histórica de basura en el Colector Solidaridad.", tech: [["Viviendas Afectadas", "3,800"], ["Población Riesgo", "12,000 personas"], ["Duración", "21 días"]], img: "https://i.postimg.cc/4x7X1RVf/QEGUSXSTYFCGFIMHD5SZWUKQIY.jpg" },
+            4: { t: "El Misterio del 'Agua Rosa' en Nezahualcóyotl (Junio 2024)", c: "Tras una tromba de tres horas que afectó 14 zonas el 26 de junio de 2024, residentes denunciaron que el agua estancada adquirió tonos rosas y rojos, acompañados de olores químicos agresivos. Este suceso subraya los riesgos adicionales de las inundaciones urbanas: la contaminación química masiva.", tech: [["Viviendas Afectadas", "22,000"], ["Fecha", "26 de junio 2024"], ["Coloración", "Rosa / Rojo"]], img: "https://i.postimg.cc/26wY5kRg/neza-agua-rosa-111539.jpg" },
+            5: { t: "Fractura en el Dren Chimalhuacán II (Julio 2024)", c: "El 1 de julio de 2024, una fractura en el Dren Chimalhuacán II, en su conexión con el Canal Río de la Compañía, provocó inundaciones de más de un metro de altura en la colonia Arturo Montiel. La noticia destaca la vulnerabilidad de las zonas bajas frente a los escurrimientos violentos de las zonas altas (cerros).", tech: [["Ubicación", "Col. Arturo Montiel"], ["Altura Agua", "1.0 m"], ["Protocolo", "Plan DN-III"]], img: "https://i.postimg.cc/x1zSzyVv/image-(10).png" },
+            6: { t: "Caos Vial y Rescate en Los Reyes La Paz (Junio 2025)", c: "El 16 de junio de 2025, una tormenta intensa provocó inundaciones críticas en el km 22 de la carretera México-Texcoco, dejando a cientos de automovilistas varados. El punto conocido como 'Festival' se convirtió en un lago donde el agua alcanzó los 60 centímetros.", tech: [["Vialidad", "México-Texcoco"], ["Nivel Agua", "60 cm"], ["Operativo", "Lanchas PC"]], img: "https://i.postimg.cc/X7tR4GB0/QGH5SNXPDNEL5LPEGRB7DYAC7E.jpg" },
+            7: { t: "Avalancha de Lodo y Basura en San Sebastián (Junio 2025)", c: "Una avalancha de lodo, basura y escombros descendió de las partes altas de San Sebastián el 1 de junio de 2025, arrastrando vehículos y afectando gravemente a la colonia Carlos Hank González. Este hecho ilustra el peligro de la urbanización en laderas.", tech: [["Arrastre", "200 metros"], ["Vehículos", "2 unidades"], ["Zona", "Hank González"]], img: "https://i.postimg.cc/VvpVfp6p/N3MWYJIT3ZCZTCKV75GK6XUY4M.jpg" },
+            8: { t: "Taponamiento Crítico en el Colector Ecatepec (2026)", c: "En enero de 2026, la acumulación de toneladas de basura en la rejilla del colector 'El Arenero' provocó un desbordamiento que cubrió de lodo la avenida Insurgentes. El análisis revela un patrón cultural persistente: el uso de barrancas como depósitos de basura.", tech: [["Colector", "El Arenero"], ["Ubicación", "Ecatepec Centro"], ["Causa", "Basura Pluvial"]], img: "https://i.postimg.cc/mrB6gQbn/image-(1)-(1).png" },
+            9: { t: "Impacto en Obras del Trolebús Santa Martha-Chalco", c: "Durante la temporada 2025, el carril confinado del nuevo Trolebús registró inundaciones de hasta 40 centímetros, afectando los tiempos de construcción en la colonia Del Carmen. La infraestructura se asienta sobre puntos críticos de acumulación residual.", tech: [["Infraestructura", "Trolebús Elevado"], ["Anegamiento", "40 cm"], ["Zona", "Santa Martha"]], img: "https://i.postimg.cc/tJZBMk5h/3OGL76YTYNBY3CLGWSCFVVD2BY.jpg" },
+            10: { t: "Atlas de Inundaciones: Chalco como Foco Rojo", c: "El balance estatal confirma a Chalco y Nezahualcóyotl como municipios de mayor riesgo. El oriente baja hasta 30cm por año debido a la extracción de pozos, lo que anula la pendiente natural del drenaje y obliga al uso de bombeo eléctrico constante.", tech: [["Hundimiento", "30 cm/año"], ["Municipios", "Chalco / Neza"], ["Damnificados", "29,000 (2021)"]], img: "https://i.postimg.cc/LsyKdyzW/Chalco-Inundaciones-Aguas-Negras-1Cuartoscuro.jpg" }
+        };
+        const id = new URLSearchParams(window.location.search).get('id') || 1;
+        const n = dataNoticias[id];
+        document.getElementById('noticia-titulo').innerText = n.t;
+        document.getElementById('noticia-cuerpo').innerText = n.c;
+        document.getElementById('noticia-img').src = n.img;
+        if(n.tech) {
+            document.getElementById('tech-section').innerHTML = `<table class="data-table">` + 
+                n.tech.map(i => `<tr><td class="tech-label">${i[0]}</td><td>${i[1]}</td></tr>`).join('') + `</table>`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+    <head>
+        <title>AR View | El Barrio Bajo El Agua</title>
+        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+        <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
+        <style>
+            .close-ar { 
+                position: fixed; top: 20px; left: 20px; z-index: 1000; 
+                padding: 12px 20px; background: rgba(17, 33, 45, 0.9); 
+                color: white; border: 1px solid #253745; border-radius: 50px; 
+                text-decoration: none; font-size: 14px; font-weight: bold;
+                backdrop-filter: blur(10px);
+            }
+            .ar-status-bar {
+                position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+                background: rgba(0,0,0,0.8); color: #4A7FA7; padding: 12px 25px;
+                border-radius: 30px; font-family: 'Roboto', sans-serif; font-size: 13px;
+                text-align: center; pointer-events: none; z-index: 1000;
+                border: 1px solid #4A7FA7; font-weight: bold;
+            }
+        </style>
+    </head>
+    <body style="margin: 0; overflow: hidden;">
+        <a href="index.html" class="close-ar">✕ Salir de AR</a>
+        <div id="status-text" class="ar-status-bar">Detectando parámetros...</div>
+
+        <a-scene 
+            vr-mode-ui="enabled: false;" 
+            loading-screen="enabled: false;" 
+            renderer="logarithmicDepthBuffer: true; colorManagement: true;" 
+            arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono; patternRatio: 0.5;" 
+            id="scene" 
+            embedded 
+            gesture-detector>
+            
+            <a-assets id="assets-container">
+                <a-asset-item id="asset-1" src="assets/asset1.glb"></a-asset-item>
+                <a-asset-item id="asset-2" src="assets/asset2.glb"></a-asset-item>
+                <a-asset-item id="asset-3" src="assets/asset3.glb"></a-asset-item>
+                <a-asset-item id="asset-4" src="assets/asset4.glb"></a-asset-item>
+                <a-asset-item id="asset-5" src="assets/asset5.glb"></a-asset-item>
+            </a-assets>
+
+            <a-entity id="active-marker-root"></a-entity>
+
+            <a-entity camera></a-entity>
+        </a-scene>
+
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const sceneId = urlParams.get('id') || '1';
+            const root = document.getElementById('active-marker-root');
+            const statusText = document.getElementById('status-text');
+
+            const scenesConfig = {
+                '1': { scale: "0.02988 0.02988 0.02988", name: "ESCUELA / CALLE INUNDADA" },
+                '2': { scale: "0.01840 0.01840 0.01840", name: "DESBORDE DEL CANAL" },
+                '3': { scale: "0.03292 0.03292 0.03292", name: "CÁRCAMO EN OPERACIÓN" },
+                '4': { scale: "0.02611 0.02611 0.02611", name: "PELIGRO ELÉCTRICO" },
+                '5': { scale: "0.03707 0.03707 0.03707", name: "RUTA DE EVACUACIÓN" }
+            };
+
+            const config = scenesConfig[sceneId];
+
+            if (config) {
+                statusText.innerText = `APUNTA AL MARCADOR ${sceneId}`;
+                
+                // Limpiamos cualquier contenido previo para asegurar que no haya marcadores fantasmas
+                root.innerHTML = '';
+
+                // Inyectamos el marcador con URL única. 
+                // Al ser el ÚNICO marcador en el HTML, AR.js no tiene forma de detectar los otros.
+                const markerHTML = `
+                    <a-marker 
+                        id="unique-marker" 
+                        type="pattern" 
+                        url="assets/marker${sceneId}.patt" 
+                        raycaster="objects: .clickable" 
+                        emitevents="true" 
+                        cursor="fuse: false; rayOrigin: mouse;">
+                        
+                        <a-entity 
+                            id="model-entity"
+                            scale="${config.scale}" 
+                            animation-mixer="loop: repeat" 
+                            gltf-model="#asset-${sceneId}" 
+                            class="clickable" 
+                            gesture-handler>
+                        </a-entity>
+                    </a-marker>
+                `;
+                root.innerHTML = markerHTML;
+            } else {
+                statusText.innerText = "ESCENA NO ENCONTRADA";
+            }
+        </script>
+    </body>
+</html>
